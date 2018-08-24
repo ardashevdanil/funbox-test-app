@@ -1,3 +1,11 @@
+# Приложение для создания маршрута на карте
+
+## Использование
+
+* При вводе названия точки, создаётся точка маршрута в центре карты
+* Точки на карте можно перетаскивать
+* При перетаскивании точек в списке, меняется порядок их соединения линией на карте
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
