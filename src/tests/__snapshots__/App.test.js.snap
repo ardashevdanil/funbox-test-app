@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test App renders correctly 1`] = `
+"<div className=\\"App\\" style={{...}}>
+  <div className=\\"points-menu\\">
+    <PointInput onEnterPress={[Function: bound addNewPoint]} />
+    <PointsList onDeleteClick={[Function: bound deletePoint]} points={{...}} setPointPosition={[Function: bound setPointPosition]} />
+  </div>
+  <MyMap points={{...}} setPointCoords={[Function: bound setPointCoords]} />
+</div>"
+`;

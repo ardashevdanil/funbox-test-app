@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PointInput renders correctly 1`] = `
+"<div className=\\"point-input\\">
+  <input placeholder=\\"Enter a point name\\" type=\\"text\\" onChange={[Function: bound handleChange]} onKeyDown={[Function: bound handleEnterPress]} value=\\"\\" />
+</div>"
+`;

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test MyPlacemark renders correctly 1`] = `"<Placemark onDrag={[Function: bound handleDrag]} geometry={{...}} properties={{...}} options={{...}} />"`;

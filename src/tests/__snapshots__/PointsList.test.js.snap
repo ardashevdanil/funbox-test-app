@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PointsList renders correctly 1`] = `
+"<div onScroll={[Function: bound handleScroll]} className=\\"points-list\\">
+  <Point position={1} value={1} id={0} onDeleteClick={[Function: onDeleteClick]} scrollTop={0} setPointPosition={[Function: setPointPosition]} />
+  <Point position={2} value={2} id={1} onDeleteClick={[Function: onDeleteClick]} scrollTop={0} setPointPosition={[Function: setPointPosition]} />
+</div>"
+`;

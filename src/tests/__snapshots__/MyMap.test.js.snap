@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test MyMap renders correctly 1`] = `
+"<YMaps enterprise={false} onApiAvaliable={[Function]} version=\\"2.1\\">
+  <Map width=\\"50%\\" height=\\"100%\\" state={{...}} instanceRef={[Function: instanceRef]}>
+    <MyPlacemark onDrag={[Function: bound handlePlacemarkDrag]} coords={{...}} value=\\"value\\" index={0} />
+    <Polyline geometry={{...}} options={{...}} />
+  </Map>
+</YMaps>"
+`;

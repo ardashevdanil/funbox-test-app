@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Point renders correctly 1`] = `
+"<Point position={42} value=\\"point\\" id={1} onDeleteClick={[Function: mockConstructor]} setPointPosition={[Function: mockConstructor]} scrollTop={0}>
+  <div className=\\"point\\" onMouseDown={[Function: bound handleMouseDown]} onDragStart={[Function: onDragStart]} style={[undefined]}>
+    point
+    <span onMouseDown={[Function: bound handleDeleteClick]} className=\\"delete-button\\">
+      X
+    </span>
+  </div>
+</Point>"
+`;
