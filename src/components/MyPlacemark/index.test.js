@@ -2,7 +2,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme from 'enzyme';
 
-import MyPlacemark from '../components/MyPlacemark';
+import MyPlacemark from './';
 
 Enzyme.configure({ adapter: new Adapter() });
 

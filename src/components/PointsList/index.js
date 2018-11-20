@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Point from './Point';
+import Point from '../Point';
 
 class PointsList extends React.Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme from 'enzyme';
 
-import MyMap from '../components/MyMap';
+import MyMap from './';
 
 Enzyme.configure({ adapter: new Adapter() });
 

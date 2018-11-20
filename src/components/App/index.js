@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 
-import MyMap from './components/MyMap';
-import PointInput from './components/PointInput';
-import PointsList from './components/PointsList';
+import MyMap from '../MyMap';
+import PointInput from '../PointInput';
+import PointsList from '../PointsList';
+import './App.css';
 
 class App extends Component {
   constructor() {

@@ -2,7 +2,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme from 'enzyme';
 
-import PointsList from '../components/PointsList';
+import PointsList from './';
 
 Enzyme.configure({ adapter: new Adapter() });
 
