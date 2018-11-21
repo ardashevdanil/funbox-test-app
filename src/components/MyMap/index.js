@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { YMaps, Map, Polyline } from 'react-yandex-maps';
 
-import MyPlacemark from './MyPlacemark';
+import MyPlacemark from '../MyPlacemark';
 
 class MyMap extends React.Component {
   constructor(props) {
