@@ -1,48 +1,43 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose, withState } from 'recompose';
 
-class PointInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputValue: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleEnterPress = this.handleEnterPress.bind(this);
-  }
+import { addPoint } from '../../redux/modules/points';
 
-  handleChange(e) {
-    this.setState({
-      inputValue: e.target.value,
-    });
-  }
+const PointInput = ({
+  addPointAction,
+  setValue,
+  value,
+}) => (
+  <div className='point-input'>
+    <input
+      onChange={(e) => setValue(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.keyCode === 13 && e.target.value !== '') {
+          addPointAction({
+            key: Date.now(),
+            value: e.target.value,
+          });
+          setValue('');
+        }
+      }}
+      placeholder='Enter a point name'
+      type='text'
+      value={value}
+    />
+  </div>
+);
 
-  handleEnterPress(e) {
-    if (e.keyCode === 13) {
-      if (this.state.inputValue === '') return;
+const enhance = compose(
+  connect(null, { addPointAction: addPoint }),
+  withState('value', 'setValue', ''),
+);
 
-      this.props.onEnterPress(this.state.inputValue);
-      this.setState( {inputValue: ''} );
-    }
-  }
-
-  render() {
-    return (
-      <div className='point-input'>
-        <input
-          placeholder='Enter a point name'
-          type='text'
-          onChange={this.handleChange}
-          onKeyDown={this.handleEnterPress}
-          value={this.state.inputValue}
-        />
-      </div>
-    );
-  }
-}
+export default enhance(PointInput);
 
 PointInput.propTypes = {
-  onEnterPress: PropTypes.func.isRequired,
+  addPointAction: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 }
-
-export default PointInput;
