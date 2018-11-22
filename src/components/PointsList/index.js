@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 
-import { dragPoint } from '../../redux/modules/points';
+import { deletePoint, dragPoint } from '../../redux/modules/points';
 import Point from '../Point';
 
 const PointsList = ({
+  deleteAction,
   dragAction,
   points,
 }) => (
@@ -27,17 +28,13 @@ const PointsList = ({
           ref={provided.innerRef}
         >
           {points.map((item, index) => (
-            <Draggable key={item.key} draggableId={item.key} index={index}>
-              {provided => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  {item.value}
-                </div>
-              )}
-            </Draggable>
+            <Point
+              deleteAction={deleteAction}
+              draggableId={item.key}
+              index={index}
+              key={item.key}
+              value={item.value}
+            />
           ))}
           {provided.placeholder}
         </div>
@@ -46,11 +43,15 @@ const PointsList = ({
   </DragDropContext>
 );
 
-const enhance = connect(state => ({ points: state.points }), { dragAction: dragPoint });
+const enhance = connect(
+  state => ({ points: state.points }),
+  { deleteAction: deletePoint, dragAction: dragPoint },
+);
 
 export default enhance(PointsList);
 
 PointsList.propTypes = {
+  deleteAction: PropTypes.func.isRequired,
   dragAction: PropTypes.func.isRequired,
   points: PropTypes.arrayOf(
     PropTypes.shape({
