@@ -1,91 +1,77 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { YMaps, Map, Polyline } from 'react-yandex-maps';
+import { Map, Placemark, Polyline, YMaps } from 'react-yandex-maps';
+import { compose, withState } from 'recompose';
+import { connect } from 'react-redux';
 
-import MyPlacemark from '../MyPlacemark';
+import { setMapCenter } from '../../redux/modules/mapCenter';
+import { setPointCoords } from '../../redux/modules/points';
 
-class MyMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.mapRef = null;
-    this.mapState = { center: [55.76, 37.64], zoom: 10 };
-    this.handlePlacemarkDrag = this.handlePlacemarkDrag.bind(this);
-  }
+const MyMap = ({
+  mapRef,
+  points,
+  setCoordsAction,
+  setMapCenterAction,
+  setMapRef,
+}) => (
+  <YMaps>
+    <Map
+      instanceRef={(elem) => setMapRef(elem)}
+      height='100%'
 
-  handlePlacemarkDrag(e, id) {
-    //converting page pixel coords to global map coords
-    const coords = this.mapRef.options.get('projection').fromGlobalPixels(
-      this.mapRef.converter.pageToGlobal(e.get('position')),
-      this.mapRef.getZoom()
-    );
-    
-    this.props.setPointCoords(coords, id);
-  }
+      // Setting the map center's coords after moving the map
+      onBoundsChange={() => setMapCenterAction(mapRef.getCenter())}
+      width='50%'
+    >
+      {points.map((point, index) => (
+        <Placemark
+          geometry={{
+            coordinates: point.coords,
+            type: 'Point',
+          }}
+          key={point.key}
+          onDrag={e => {
+            // Converting page pixel coords to global map coords
+            const coords = mapRef.options.get('projection').fromGlobalPixels(
+              mapRef.converter.pageToGlobal(e.get('position')),
+              mapRef.getZoom(),
+            );
+            setCoordsAction({ coords, key: point.key });
+          }}
+          options={{ draggable: true }}
+          properties={{ 
+            balloonContent: point.value,
+            iconContent: index + 1, 
+          }}
+        />
+      ))}
+      <Polyline
+        geometry={{
+          coordinates: points.map(point => point.coords), 
+        }}
+      />
+    </Map>
+  </YMaps>
+);
 
-  componentDidUpdate(prevProps) {
-    //setting the point coords after creating
-    if (this.props.points.length > prevProps.points.length) {
-      const pointId = this.props.points.length - 1;
+const enhance = compose(
+  connect(
+    state => ({ points: state.points }),
+    { setCoordsAction: setPointCoords, setMapCenterAction: setMapCenter }),
+  withState('mapRef', 'setMapRef', null),
+);
 
-      this.props.setPointCoords(this.mapRef.getCenter(), pointId);
-    }
-  }
-
-  render() {
-    const lineCoords = [];
-    const points = this.props.points.map( (item, index) => {
-      if (item.coords) {
-        lineCoords.push(item.coords);
-
-        return (
-          <MyPlacemark
-            key={item.key}
-            onDrag={this.handlePlacemarkDrag}
-            coords={item.coords}
-            value={item.value}
-            index={index}
-          />
-        );
-      }
-    });
-
-    return (
-      <YMaps>
-        <Map
-          width='50%'
-          height='100%'
-          state={this.mapState}
-          instanceRef={(elem) => this.mapRef = elem}
-        >
-          {points}
-          <Polyline
-            geometry={{
-              coordinates: lineCoords
-            }}
-            options={{
-              strokeColor: '#FF00FF',
-              strokeWidth: 4
-            }}
-          />
-        </Map>
-      </YMaps>
-    );
-  }
-};
+export default enhance(MyMap);
 
 MyMap.propTypes = {
   points: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-      ]),
-      key: PropTypes.number,
-      position: PropTypes.number,
-      coords: PropTypes.arrayOf(PropTypes.number),
+      coords: PropTypes.arrayOf(PropTypes.number).isRequired,
+      key: PropTypes.number.isRequired,
+      value: PropTypes.string.isRequired,
     })
   ).isRequired,
-  setPointCoords: PropTypes.func.isRequired,
+  setCoordsAction: PropTypes.func.isRequired,
+  setMapCenterAction: PropTypes.func.isRequired,
+  setMapRef: PropTypes.func.isRequired,
 }
-
-export default MyMap;
