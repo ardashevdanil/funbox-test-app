@@ -4,9 +4,11 @@ import {
   createStore,
 } from 'redux';
 
+import { mapCenterReducer } from './modules/mapCenter';
 import { pointsReducer } from './modules/points';
 
 export const rootReducer = combineReducers({
+  mapCenter: mapCenterReducer,
   points: pointsReducer,
 });
 
