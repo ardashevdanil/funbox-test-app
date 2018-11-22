@@ -4,7 +4,7 @@ import {
   createStore,
 } from 'redux';
 
-import { pointsReducer } from './points';
+import { pointsReducer } from './modules/points';
 
 export const rootReducer = combineReducers({
   points: pointsReducer,
