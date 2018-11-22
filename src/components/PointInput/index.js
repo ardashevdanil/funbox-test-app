@@ -7,6 +7,7 @@ import { addPoint } from '../../redux/modules/points';
 
 const PointInput = ({
   addPointAction,
+  mapCenter,
   setValue,
   value,
 }) => (
@@ -16,6 +17,7 @@ const PointInput = ({
       onKeyDown={(e) => {
         if (e.keyCode === 13 && e.target.value !== '') {
           addPointAction({
+            coords: mapCenter,
             key: Date.now(),
             value: e.target.value,
           });
@@ -30,7 +32,7 @@ const PointInput = ({
 );
 
 const enhance = compose(
-  connect(null, { addPointAction: addPoint }),
+  connect(({ mapCenter }) => ({ mapCenter }), { addPointAction: addPoint }),
   withState('value', 'setValue', ''),
 );
 
@@ -38,6 +40,7 @@ export default enhance(PointInput);
 
 PointInput.propTypes = {
   addPointAction: PropTypes.func.isRequired,
+  mapCenter: PropTypes.arrayOf(PropTypes.number).isRequired,
   setValue: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 }

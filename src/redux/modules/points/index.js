@@ -12,21 +12,21 @@ export const setPointCoords = createAction('SET_POINT_COORDS');
 const initialState = [];
 
 export const pointsReducer = handleActions({
-  [addPoint]: (state, action) => [...state, action.payload],
-  [deletePoint]: (state, action) => {
+  [addPoint]: (state, { payload }) => [...state, payload],
+  [deletePoint]: (state, { payload }) => {
     const newState = [...state];
 
-    newState.splice(action.payload, 1);
+    newState.splice(payload, 1);
     return newState;
   },
-  [dragPoint]: (state, action) => reorder(
+  [dragPoint]: (state, { payload: {endIndex, startIndex} }) => reorder(
     state,
-    action.payload.startIndex,
-    action.payload.endIndex,
+    startIndex,
+    endIndex,
   ),
-  [setPointCoords]: (state, action) => state.map((point, index) => (
-    action.payload.id === index
-      ? { ...point, ...{ coords: action.payload.coords } }
+  [setPointCoords]: (state, { payload: { coords, key } }) => state.map(point => (
+    key === point.key 
+      ? { ...point, coords: coords }
       : point
   )),
 }, initialState);

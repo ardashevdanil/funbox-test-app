@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { YMaps, Map, Polyline } from 'react-yandex-maps';
+import { Map, Placemark, Polyline, YMaps } from 'react-yandex-maps';
 import { compose, withState } from 'recompose';
 import { connect } from 'react-redux';
 
-import MyPlacemark from '../MyPlacemark';
 import { setMapCenter } from '../../redux/modules/mapCenter';
 import { setPointCoords } from '../../redux/modules/points';
 
@@ -22,31 +21,33 @@ const MyMap = ({
 
       // Setting the map center's coords after moving the map
       onBoundsChange={() => setMapCenterAction(mapRef.getCenter())}
-      state={{ center: [55.76, 37.64], zoom: 10 }}
       width='50%'
     >
-      {points.map(point => (
-        <MyPlacemark
-          coords={point.coords}
+      {points.map((point, index) => (
+        <Placemark
+          geometry={{
+            coordinates: point.coords,
+            type: 'Point',
+          }}
           key={point.key}
-          value={point.value}
-          onDrag={(e, key) => {
+          onDrag={e => {
             // Converting page pixel coords to global map coords
             const coords = mapRef.options.get('projection').fromGlobalPixels(
               mapRef.converter.pageToGlobal(e.get('position')),
               mapRef.getZoom(),
             );
-            setCoordsAction(coords, key);
+            setCoordsAction({ coords, key: point.key });
+          }}
+          options={{ draggable: true }}
+          properties={{ 
+            balloonContent: point.value,
+            iconContent: index + 1, 
           }}
         />
       ))}
       <Polyline
         geometry={{
           coordinates: points.map(point => point.coords), 
-        }}
-        options={{
-          strokeColor: '#FF00FF',
-          strokeWidth: 4,
         }}
       />
     </Map>
@@ -67,7 +68,7 @@ MyMap.propTypes = {
     PropTypes.shape({
       coords: PropTypes.arrayOf(PropTypes.number).isRequired,
       key: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
+      value: PropTypes.string.isRequired,
     })
   ).isRequired,
   setCoordsAction: PropTypes.func.isRequired,

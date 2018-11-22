@@ -13,7 +13,7 @@ const PointsList = ({
 }) => (
   <DragDropContext
 
-    // FIX: doesn't update state while dragging
+    // FIX: doesn't update state when dragging
     onDragEnd={result => {
       if (!result.destination) return;
       dragAction({
