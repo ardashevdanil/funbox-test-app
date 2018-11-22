@@ -11,9 +11,12 @@ const initialState = [];
 
 export const pointsReducer = handleActions({
   [addPoint]: (state, action) => [...state, action.payload],
-  [deletePoint]: (state, action) => state.filter((point, index) => (
-    index !== action.payload ? true : false
-  )),
+  [deletePoint]: (state, action) => {
+    const newState = [...state];
+
+    newState.splice(action.payload, 1);
+    return newState;
+  },
   [dragPoint]: (state, action) => reorder(
     state,
     action.payload.startIndex,
