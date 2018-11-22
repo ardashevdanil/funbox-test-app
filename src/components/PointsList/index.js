@@ -1,63 +1,62 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
 
+import { dragPoint } from '../../redux/modules/points';
 import Point from '../Point';
 
-class PointsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.pointsListRef = React.createRef();
-    this.state = {
-      scrollTop: 0,
-    };
-    this.handleScroll = this.handleScroll.bind(this);
-  }
+const PointsList = ({
+  dragAction,
+  points,
+}) => (
+  <DragDropContext
 
-  handleScroll() {
-    this.setState({scrollTop: this.pointsListRef.current.scrollTop});
-  }
+    // FIX: doesn't update state while dragging
+    onDragEnd={result => {
+      if (!result.destination) return;
+      dragAction({
+        startIndex: result.source.index,
+        endIndex: result.destination.index,
+      });
+    }}
+  >
+    <Droppable droppableId='droppable'>
+      {provided => (
+        <div
+          ref={provided.innerRef}
+        >
+          {points.map((item, index) => (
+            <Draggable key={item.key} draggableId={item.key} index={index}>
+              {provided => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  {item.value}
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  </DragDropContext>
+);
 
-  render() {
-    const points = this.props.points.map( (point, id) => {
-      return (
-        <Point
-          position={point.position}
-          value={point.value}
-          key={point.key}
-          id={id}
-          onDeleteClick={this.props.onDeleteClick}
-          scrollTop={this.state.scrollTop}
-          setPointPosition={this.props.setPointPosition}
-        />
-      );
-    });
+const enhance = connect(state => ({ points: state.points }), { dragAction: dragPoint });
 
-    return (
-      <div
-        onScroll={this.handleScroll}
-        className='points-list'
-        ref={this.pointsListRef}
-      >
-        {points}
-      </div>
-    );
-  }
-}
+export default enhance(PointsList);
 
 PointsList.propTypes = {
+  dragAction: PropTypes.func.isRequired,
   points: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-      ]),
+      coords: PropTypes.array,
       key: PropTypes.number,
-      position: PropTypes.number,
-      coords: PropTypes.arrayOf(PropTypes.number),
-    })
+      value: PropTypes.string,
+    }),
   ).isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
-  setPointPosition: PropTypes.func.isRequired,
 }
-
-export default PointsList;
