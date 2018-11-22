@@ -12,18 +12,9 @@ class App extends Component {
       style: {},
       points: []
     };
-    this.addNewPoint = this.addNewPoint.bind(this);
     this.deletePoint = this.deletePoint.bind(this);
     this.setPointCoords = this.setPointCoords.bind(this);
     this.setPointPosition = this.setPointPosition.bind(this);
-  }
-
-  addNewPoint(value) {
-    const newPoint = { value: value, key: Date.now() };
-    
-    this.setState( (prevState) => ({
-      points: prevState.points.concat(newPoint),
-    }));
   }
 
   arrangePointsByPosition(points) {
@@ -82,7 +73,7 @@ class App extends Component {
     return (
       <div className="App" style={this.state.style}>
         <div className="points-menu">
-          <PointInput onEnterPress={this.addNewPoint}/>
+          <PointInput />
           <PointsList
             onDeleteClick={this.deletePoint}
             points={points}
