@@ -1,6 +1,11 @@
 {
-  "main.css": "static/css/main.65106820.css",
-  "main.css.map": "static/css/main.65106820.css.map",
-  "main.js": "static/js/main.c9e49ec1.js",
-  "main.js.map": "static/js/main.c9e49ec1.js.map"
+  "main.js": "/funbox-test-app/static/js/main.3367bda3.chunk.js",
+  "main.js.map": "/funbox-test-app/static/js/main.3367bda3.chunk.js.map",
+  "static/js/1.b4186858.chunk.js": "/funbox-test-app/static/js/1.b4186858.chunk.js",
+  "static/js/1.b4186858.chunk.js.map": "/funbox-test-app/static/js/1.b4186858.chunk.js.map",
+  "runtime~main.js": "/funbox-test-app/static/js/runtime~main.a84429aa.js",
+  "runtime~main.js.map": "/funbox-test-app/static/js/runtime~main.a84429aa.js.map",
+  "index.html": "/funbox-test-app/index.html",
+  "precache-manifest.40e5709f31a52a8ab53f1fea6919d977.js": "/funbox-test-app/precache-manifest.40e5709f31a52a8ab53f1fea6919d977.js",
+  "service-worker.js": "/funbox-test-app/service-worker.js"
 }
