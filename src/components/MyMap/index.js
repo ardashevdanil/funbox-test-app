@@ -9,6 +9,7 @@ import { setPointCoords } from '../../redux/modules/points';
 
 const MyMap = ({
   mapRef,
+  mapState,
   points,
   setCoordsAction,
   setMapCenterAction,
@@ -21,6 +22,7 @@ const MyMap = ({
 
       // Setting the map center's coords after moving the map
       onBoundsChange={() => setMapCenterAction(mapRef.getCenter())}
+      state={mapState}
       width='50%'
     >
       {points.map((point, index) => (
@@ -59,11 +61,13 @@ const enhance = compose(
     state => ({ points: state.points }),
     { setCoordsAction: setPointCoords, setMapCenterAction: setMapCenter }),
   withState('mapRef', 'setMapRef', null),
+  withState('mapState', 'setMapState', { center: [55.76, 37.64], zoom: 10 }),
 );
 
 export default enhance(MyMap);
 
 MyMap.propTypes = {
+  mapState: PropTypes.object.isRequired,
   points: PropTypes.arrayOf(
     PropTypes.shape({
       coords: PropTypes.arrayOf(PropTypes.number).isRequired,
