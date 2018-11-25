@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState } from 'recompose';
+import TextField from '@material-ui/core/TextField';
 
 import { addPoint } from '../../redux/modules/points';
 
@@ -11,24 +12,22 @@ const PointInput = ({
   setValue,
   value,
 }) => (
-  <div className='point-input'>
-    <input
-      onChange={(e) => setValue(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.keyCode === 13 && e.target.value !== '') {
-          addPointAction({
-            coords: mapCenter,
-            key: Date.now(),
-            value: e.target.value,
-          });
-          setValue('');
-        }
-      }}
-      placeholder='Enter a point name'
-      type='text'
-      value={value}
-    />
-  </div>
+  <TextField
+    fullWidth
+    label='Enter a point name'
+    onChange={(e) => setValue(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.keyCode === 13 && e.target.value !== '') {
+        addPointAction({
+          coords: mapCenter,
+          key: Date.now(),
+          value: e.target.value,
+        });
+        setValue('');
+      }
+    }}
+    value={value}
+  />
 );
 
 const enhance = compose(
