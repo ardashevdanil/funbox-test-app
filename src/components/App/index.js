@@ -1,18 +1,41 @@
 import React from 'react';
+import { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 import MyMap from '../MyMap';
 import PointInput from '../PointInput';
 import PointsList from '../PointsList';
-import './App.css';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+const Wrapper = styled.div`
+  height: 100vh;
+  width: 100%;
+  min-width: 640px;
+  display: flex;
+`;
+
+const List = styled.div`
+  height: 100%;
+  width: 50%;
+  margin: 0 10px;
+  overflow: auto;
+`;
 
 const App = () => (
-  <div className='App'>
-    <div className='points-menu'>
+  <Wrapper>
+    <GlobalStyle />
+    <List>
       <PointInput />
       <PointsList />
-    </div>
+    </List>
     <MyMap />
-  </div>
+  </Wrapper>
 );
 
 export default App;
